@@ -2,66 +2,66 @@
 package buscaminas;
 
 public class Casilla {
-    private int posFila;
-    private int posColum;
-    private int numMinasAlrededor;
-    private Estados estado;
+    private int posicion_Fila;
+    private int posicion_Columna;
+    private int minas_Alrededor;
+    private Estados estado_Generado;
 
     public Casilla(int posFila, int posColum) {
-        this.posFila = posFila;
-        this.posColum = posColum;
+        this.posicion_Fila = posFila;
+        this.posicion_Columna = posColum;
     }
 
-    public int getPosFila() {
-        return posFila;
+    public int getPosicion_Fila() {
+        return posicion_Fila;
     }
 
-    public void setPosFila(int posFila) {
-        this.posFila = posFila;
+    public void setPosicion_Fila(int posicion_Fila) {
+        this.posicion_Fila = posicion_Fila;
     }
 
-    public int getPosColum() {
-        return posColum;
+    public int getPosicion_Columna() {
+        return posicion_Columna;
     }
 
-    public void setPosColum(int posColum) {
-        this.posColum = posColum;
+    public void setPosicion_Columna(int posicion_Columna) {
+        this.posicion_Columna = posicion_Columna;
     }
 
-    public int getNumMinasAlrededor() {
-        return numMinasAlrededor;
+    public int getMinas_Alrededor() {
+        return minas_Alrededor;
     }
 
-    public void setNumMinasAlrededor(int numMinasAlrededor) {
-        this.numMinasAlrededor = numMinasAlrededor;
+    public void setMinas_Alrededor(int minas_Alrededor) {
+        this.minas_Alrededor = minas_Alrededor;
     }
     
     public void incrementarNumeroMinasAlrededor(){
-        this.numMinasAlrededor++;
+        this.minas_Alrededor++;
     }
     
     public void setMina() {
-        estado = Estados.MINA;
+        estado_Generado = Estados.MINA;
     }
 
     public void setAbierta(){
-        estado = Estados.ABIERTO;
+        estado_Generado = Estados.ABIERTO;
     }
     
     public void setCerrado(){
-        estado = Estados.CERRADO;
+        estado_Generado = Estados.CERRADO;
     }
     
     public void setBandera(){
-        estado = Estados.BANDERA;
+        estado_Generado = Estados.BANDERA;
     }
     
     public void setBloqueado(){
-        estado = Estados.BLOQUEADO;
+        estado_Generado = Estados.BLOQUEADO;
     }
     
-    public Estados getEstado() {
-        return estado;
+    public Estados getEstado_Generado() {
+        return estado_Generado;
     }    
     
 

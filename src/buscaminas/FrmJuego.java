@@ -19,14 +19,14 @@ public class FrmJuego extends javax.swing.JFrame {
 
     JButton[][] botonesTablero;
 
-    TableroBuscaminas tableroBuscaminas;
+    TableroJuego tableroBuscaminas;
 
     public FrmJuego() {
         initComponents();
-        juegoNuevo();
+        realizar_Juego_Nuevo();
     }
 
-    void descargarControles() {
+    void generar_Controles() {
         if (botonesTablero != null) {
             for (int i = 0; i < botonesTablero.length; i++) {
                 for (int j = 0; j < botonesTablero[i].length; j++) {
@@ -38,21 +38,21 @@ public class FrmJuego extends javax.swing.JFrame {
         }
     }
 
-    private void juegoNuevo() {
+    private void realizar_Juego_Nuevo() {
         JOptionPane.showMessageDialog(rootPane, "REGLAS DEL JUEGO:\n1. Para ganar este juego deberas evitar explotar las minas. \n2.Con click derecho del mouse podras colocar tus banderas. \n3. Las pistas del juego se te darán por medio de los numeros que encuentres. \nDISFRUTA!!!");
-        descargarControles();
+        generar_Controles();
         cargarControles();
         crearTableroBuscaminas();
         repaint();
     }
 
     private void crearTableroBuscaminas() {
-        tableroBuscaminas = new TableroBuscaminas(numFilas, numColumnas, numMinas);
+        tableroBuscaminas = new TableroJuego(numFilas, numColumnas, numMinas);
         tableroBuscaminas.setEventoPartidaPerdida(new Consumer<List<Casilla>>() {
             @Override
             public void accept(List<Casilla> t) {
                 for (Casilla casillaConMina : t) {
-                    JButton botonActual = botonesTablero[casillaConMina.getPosFila()][casillaConMina.getPosColum()];
+                    JButton botonActual = botonesTablero[casillaConMina.getPosicion_Fila()][casillaConMina.getPosicion_Columna()];
 
                     // Cargar la imagen de la mina desde un archivo
                     ImageIcon iconoMina = new ImageIcon(getClass().getResource("/ImagenBuscaminas/Bomba.jpg"));
@@ -78,21 +78,17 @@ public class FrmJuego extends javax.swing.JFrame {
             @Override
             public void accept(List<Casilla> t) {
                 for (Casilla casillaConMina : t) {
-                    JButton botonActual = botonesTablero[casillaConMina.getPosFila()][casillaConMina.getPosColum()];
+                    JButton botonActual = botonesTablero[casillaConMina.getPosicion_Fila()][casillaConMina.getPosicion_Columna()];
 
-                    // Cargar la imagen de la mina desde un archivo
                     ImageIcon iconoMina = new ImageIcon(getClass().getResource("/ImagenBuscaminas/happyface.png"));
 
-                    // Escalar la imagen al tamaño del botón
                     Image imagenOriginal = iconoMina.getImage();
                     int anchoDeseado = botonActual.getWidth();
                     int altoDeseado = botonActual.getHeight();
                     Image imagenEscalada = imagenOriginal.getScaledInstance(anchoDeseado, altoDeseado, Image.SCALE_SMOOTH);
 
-                    // Crear un nuevo objeto ImageIcon utilizando la imagen escalada
                     ImageIcon iconoEscalado = new ImageIcon(imagenEscalada);
 
-                    // Establecer el icono del botón
                     botonActual.setIcon(iconoEscalado);
                 }
                 
@@ -113,22 +109,19 @@ public class FrmJuego extends javax.swing.JFrame {
         tableroBuscaminas.setEventoCasillaAbierta(new Consumer<Casilla>() {
             @Override
             public void accept(Casilla t) {
-                botonesTablero[t.getPosFila()][t.getPosColum()].setEnabled(false);
-                botonesTablero[t.getPosFila()][t.getPosColum()].setIcon(null);
-                botonesTablero[t.getPosFila()][t.getPosColum()].setText(t.getNumMinasAlrededor() == 0 ? "" : t.getNumMinasAlrededor() + "");
+                botonesTablero[t.getPosicion_Fila()][t.getPosicion_Columna()].setEnabled(false);
+                botonesTablero[t.getPosicion_Fila()][t.getPosicion_Columna()].setIcon(null);
+                botonesTablero[t.getPosicion_Fila()][t.getPosicion_Columna()].setText(t.getMinas_Alrededor() == 0 ? "" : t.getMinas_Alrededor() + "");
             }
         });
 
         tableroBuscaminas.setEventoCasillaBandera(new Consumer<Casilla>() {
             @Override
             public void accept(Casilla t) {
-                ////////-----------------------
-
             }
         });
    
-
-        tableroBuscaminas.imprimirTablero();
+        tableroBuscaminas.mostrar_Tablero();
     }
 
     private void cargarControles() {
@@ -197,8 +190,7 @@ public class FrmJuego extends javax.swing.JFrame {
         int posFila = coordenas[0];
         int posColumna = coordenas[1];
 
-//        JOptionPane.showMessageDialog(rootPane, posFila + "," + posColumna);
-        tableroBuscaminas.seleccionarCasilla(posFila, posColumna);
+        tableroBuscaminas.seleccionar_Casillas(posFila, posColumna);
     }
 
     private void btnClickBandera(JButton e) {
@@ -321,7 +313,7 @@ public class FrmJuego extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        juegoNuevo();
+        realizar_Juego_Nuevo();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
@@ -329,35 +321,35 @@ public class FrmJuego extends javax.swing.JFrame {
         int num = Integer.parseInt(JOptionPane.showInputDialog("Digite el numero de la matriz"));
         this.numFilas = num;
         this.numColumnas = num;
-        juegoNuevo();
+        realizar_Juego_Nuevo();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         // TODO add your handling code here:
         int num = Integer.parseInt(JOptionPane.showInputDialog("Digite el numero de minas: "));
         this.numMinas = num;
-        juegoNuevo();
+        realizar_Juego_Nuevo();
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         numFilas = 16;
         numColumnas = 16;
         numMinas = 40;
-        juegoNuevo();
+        realizar_Juego_Nuevo();
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         numFilas = 16;
         numColumnas = 30;
         numMinas = 99;
-        juegoNuevo();
+        realizar_Juego_Nuevo();
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         numFilas = 8;
         numColumnas = 8;
         numMinas = 10;
-        juegoNuevo();
+        realizar_Juego_Nuevo();
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     /**
